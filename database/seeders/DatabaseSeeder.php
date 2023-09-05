@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        
+
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         User::truncate();
         Category::truncate();
@@ -37,9 +37,22 @@ class DatabaseSeeder extends Seeder
         $productsQuantity = 1000;
         $transactionsQuantity = 1000;
 
+        // tạo user
         User::factory()->count($userQuanity)->create();
+
+        // tạo category
         Category::factory()->count($categoriesQuantity)->create();
-        Product::factory()->count($productsQuantity)->create();
+
+        // tạo product
+        Product::factory()->count($productsQuantity)->create()->each(
+            // tạo pivot table category_product
+            function ($product) {
+                $categories = Category::all()->random(mt_rand(1, 5))->pluck('id');
+                $product->categories()->attach($categories);
+            }
+        );
+
+        // tạo transaction
         Transaction::factory()->count($transactionsQuantity)->create();
     }
 }

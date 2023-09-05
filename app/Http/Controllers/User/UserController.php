@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
@@ -34,7 +34,7 @@ class UserController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateUserRequest $request)
+    public function store(StoreUserRequest $request)
     {
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
