@@ -11,6 +11,7 @@ use App\Http\Controllers\Category\CategoryProductController;
 use App\Http\Controllers\Category\CategorySellerController;
 use App\Http\Controllers\Category\CategoryTransactionController;
 use App\Http\Controllers\Product\ProductBuyerController;
+use App\Http\Controllers\Product\ProductBuyerTransactionController;
 use App\Http\Controllers\Product\ProductCategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductTransactionController;
@@ -107,7 +108,8 @@ Route::resource('categories.buyers', CategoryBuyerController::class)->only(['ind
 Route::resource('products', ProductController::class)->except(['index', 'show']);
 Route::resource('products.transactions', ProductTransactionController::class)->only(['index']);
 Route::resource('products.buyers', ProductBuyerController::class)->only(['index']);
-Route::resource('products.categories', ProductCategoryController::class)->only(['index']);
+Route::resource('products.categories', ProductCategoryController::class)->except(['create', 'show', 'edit']);
+Route::resource('products.buyers.transactions', ProductBuyerTransactionController::class)->only(['store']);
 
 /**
  * Sellers
@@ -129,3 +131,4 @@ Route::resource('transactions.sellers', TransactionSellerController::class)->onl
  * Users
  */
 Route::resource('users', UserController::class)->except(['create', 'store', 'edit']);
+Route::get('users/verify/{token}', [UserController::class, 'verify'])->name('verify');

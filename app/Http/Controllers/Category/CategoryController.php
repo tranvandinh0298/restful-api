@@ -20,14 +20,6 @@ class CategoryController extends ApiController
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCategoryRequest $request)
@@ -43,14 +35,6 @@ class CategoryController extends ApiController
     public function show(Category $category)
     {
         return $this->showOne($category);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
     }
 
     /**

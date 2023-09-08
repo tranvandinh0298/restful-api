@@ -23,6 +23,7 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'image' => 'image',
             'quantity' => 'integer|min:1',
             'status' => 'in:'.Product::AVAILABLE_PRODUCT. ','. Product::UNAVAILABLE_PRODUCT,
         ];
