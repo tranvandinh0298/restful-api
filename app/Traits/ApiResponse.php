@@ -54,6 +54,7 @@ trait ApiResponse
 
         // Log::debug('get_class: ' . get_class($collection));
 
+        $collection = $this->paginate($collection);
 
 
         return $this->successResponse(['data' => $collection], $code);
@@ -150,5 +151,31 @@ trait ApiResponse
             })->values();
         }
         return JsonResource::collection($collection);
+    }
+
+    protected function paginate( JsonResource $collection)
+    {
+        $rules = [
+            'per_page' => 'integer|min:2|max:50'
+        ];
+
+        Validator::validate(request()->all(), $rules);
+
+        $page = LengthAwarePaginator::resolveCurrentPage();
+
+        $perPage = 15;
+        if (request()->has('per_page')) {
+            $perPage = (int) request()->per_page;
+        }
+
+        $results = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+        $paginatedCollection = new LengthAwarePaginator($results, $collection->count(), $perPage, $page, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+        ]);
+
+        $paginatedCollection->appends(request()->all());
+
+        return $paginatedCollection;
     }
 }
