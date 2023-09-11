@@ -17,6 +17,6 @@ class TransactionSellerController extends ApiController
         // lấy ra người bán sản phẩm nằm trong giao dịch
         $seller = $transaction->product->seller;
 
-        return $this->showOne($seller);
+        return $this->showSeller($seller);
     }
 }

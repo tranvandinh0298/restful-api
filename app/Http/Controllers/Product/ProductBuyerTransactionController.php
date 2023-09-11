@@ -50,7 +50,7 @@ class ProductBuyerTransactionController extends ApiController
                 'product_id' => $product->id
             ]);
 
-            return $this->showOne($transaction, 201);
+            return $this->showTransaction($transaction, 201);
         });
     }
 }

@@ -105,7 +105,7 @@ Route::resource('categories.buyers', CategoryBuyerController::class)->only(['ind
 /**
  * Products
  */
-Route::resource('products', ProductController::class)->except(['index', 'show']);
+Route::resource('products', ProductController::class)->only(['index', 'show']);
 Route::resource('products.transactions', ProductTransactionController::class)->only(['index']);
 Route::resource('products.buyers', ProductBuyerController::class)->only(['index']);
 Route::resource('products.categories', ProductCategoryController::class)->except(['create', 'show', 'edit']);
@@ -130,5 +130,6 @@ Route::resource('transactions.sellers', TransactionSellerController::class)->onl
 /**
  * Users
  */
-Route::resource('users', UserController::class)->except(['create', 'store', 'edit']);
+Route::resource('users', UserController::class)->except(['create', 'edit']);
 Route::get('users/verify/{token}', [UserController::class, 'verify'])->name('verify');
+Route::get('users/{user}/resend', [UserController::class, 'resend'])->name('resend');

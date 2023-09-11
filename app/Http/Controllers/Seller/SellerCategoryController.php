@@ -24,6 +24,6 @@ class SellerCategoryController extends ApiController
         ->unique()
         ->values();
 
-        return $this->showAll($categories);
+        return $this->showCategories($categories);
     }
 }

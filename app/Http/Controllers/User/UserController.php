@@ -6,10 +6,14 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
+use App\Mail\UserCreated;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends ApiController
 {
@@ -18,17 +22,10 @@ class UserController extends ApiController
      */
     public function index()
     {
-        $users = User::all();
+        // $users = User::all();
+        $users = User::limit(10)->get();
 
-        return $this->showAll($users);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $this->showUsers($users);
     }
 
     /**
@@ -44,7 +41,7 @@ class UserController extends ApiController
 
         $user = User::create($input);
 
-        return $this->showOne($user);
+        return $this->showUser($user);
     }
 
     /**
@@ -52,15 +49,7 @@ class UserController extends ApiController
      */
     public function show(User $user)
     {
-        return $this->showOne($user);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return $this->showUser($user);
     }
 
     /**
@@ -99,7 +88,7 @@ class UserController extends ApiController
 
         $user->save();
 
-        return $this->showOne($user);
+        return $this->showUser($user);
     }
 
     /**
@@ -110,10 +99,11 @@ class UserController extends ApiController
 
         $user->delete();
 
-        return $this->showOne($user);
+        return $this->showUser($user);
     }
 
-    public function verify($token) {
+    public function verify($token)
+    {
         $user = User::where('verification_token', $token)->firstOrFail();
 
         $user->verified = User::VERIFIED_USER;
@@ -121,5 +111,18 @@ class UserController extends ApiController
         $user->save();
 
         return $this->showMessage('The account has been verified succesfully');
+    }
+
+    public function resend(User $user)
+    {
+        if ($user->isVerified()) {
+            return $this->errorResponse('This user is already verified', 409);
+        }
+
+        retry(5, function () use ($user) {
+            Mail::to($user)->send(new UserCreated($user));
+        });
+
+        return $this->showMessage('The verification email has been resend');
     }
 }

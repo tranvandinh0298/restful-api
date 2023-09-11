@@ -17,6 +17,6 @@ class BuyerTransactionController extends ApiController
         // buyer -> transaction
         $transactions = $buyer->transactions;
 
-        return $this->showAll($transactions);
+        return $this->showTransactions($transactions);
     }
 }

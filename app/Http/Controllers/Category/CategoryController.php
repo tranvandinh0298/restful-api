@@ -16,7 +16,7 @@ class CategoryController extends ApiController
     public function index()
     {
         $categories = Category::all();
-        return $this->showAll($categories);
+        return $this->showCategories($categories);
     }
 
     /**
@@ -26,7 +26,7 @@ class CategoryController extends ApiController
     {
         $newCategory = Category::create($request->all());
 
-        return $this->showOne($newCategory);
+        return $this->showCategory($newCategory);
     }
 
     /**
@@ -34,7 +34,7 @@ class CategoryController extends ApiController
      */
     public function show(Category $category)
     {
-        return $this->showOne($category);
+        return $this->showCategory($category);
     }
 
     /**
@@ -50,7 +50,7 @@ class CategoryController extends ApiController
 
         $category->save();
 
-        return $this->showOne($category);
+        return $this->showCategory($category);
     }
 
     /**
@@ -60,6 +60,6 @@ class CategoryController extends ApiController
     {
         $category->delete();
 
-        return $this->showOne($category);
+        return $this->showCategory($category);
     }
 }

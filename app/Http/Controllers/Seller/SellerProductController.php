@@ -23,7 +23,7 @@ class SellerProductController extends ApiController
     {
         $products = $seller->products;
 
-        return $this->showAll($products);
+        return $this->showProducts($products);
     }
 
     /**
@@ -39,7 +39,7 @@ class SellerProductController extends ApiController
 
         $product = Product::create($data);
 
-        return $this->showOne($product);
+        return $this->showProduct($product);
     }
 
     /**
@@ -72,7 +72,7 @@ class SellerProductController extends ApiController
 
         $product->save();
 
-        return $this->showOne($product);
+        return $this->showProduct($product);
     }
 
     /**
@@ -86,7 +86,7 @@ class SellerProductController extends ApiController
 
         $product->delete();
 
-        return $this->showOne($product);
+        return $this->showProduct($product);
     }
 
     /**

@@ -17,6 +17,6 @@ class CategoryProductController extends ApiController
         // category -> category_product -> product
         $products = $category->products;
 
-        return $this->showAll($products);
+        return $this->showProducts($products);
     }
 }

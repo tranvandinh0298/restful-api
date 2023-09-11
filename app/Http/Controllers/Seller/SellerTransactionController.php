@@ -22,6 +22,6 @@ class SellerTransactionController extends ApiController
         ->pluck('transactions')
         ->collapse();
 
-        return $this->showAll($transactions);
+        return $this->showTransactions($transactions);
     }
 }

@@ -9,9 +9,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class UserCreated extends Mailable
+class UserMailChanged extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,6 +19,7 @@ class UserCreated extends Mailable
      */
     public function __construct(protected User $user)
     {
+        //
     }
 
     /**
@@ -28,7 +28,7 @@ class UserCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'User Created',
+            subject: 'User Mail Changed',
         );
     }
 
@@ -38,7 +38,7 @@ class UserCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.welcome',
+            markdown: 'emails.confirm',
             with: [
                 'user' => $this->user
             ]

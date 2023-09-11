@@ -16,7 +16,7 @@ class ProductController extends ApiController
     {
         $products = Product::all();
 
-        return $this->showAll($products);
+        return $this->showProducts($products);
     }
 
     /**
@@ -40,7 +40,7 @@ class ProductController extends ApiController
      */
     public function show(Product $product)
     {
-        return $this->showOne($product); 
+        return $this->showProduct($product); 
     }
 
     /**

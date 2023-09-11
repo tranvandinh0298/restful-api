@@ -21,6 +21,6 @@ class ProductBuyerController extends ApiController
         ->unique()
         ->values();
 
-        return $this->showAll($buyers);
+        return $this->showBuyers($buyers);
     }
 }

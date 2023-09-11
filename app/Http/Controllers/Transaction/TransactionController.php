@@ -16,7 +16,7 @@ class TransactionController extends ApiController
     {
         $transactions = Transaction::all();
 
-        return $this->showAll($transactions);
+        return $this->showTransactions($transactions);
     }
 
     /**
@@ -40,7 +40,7 @@ class TransactionController extends ApiController
      */
     public function show(Transaction $transaction)
     {
-        return $this->showOne($transaction);
+        return $this->showTransaction($transaction);
     }
 
     /**

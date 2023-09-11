@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Mail\UserCreated;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +24,24 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        User::created(function ($user) {
+            retry(5, function () use ($user) {
+                Log::debug('User::created - boot:' . json_encode($user));
+                Log::debug('send email: '. route('verify', $user->verification_token));
+                // Mail::to($user->email)->send(new UserCreated($user));
+            }, 100);
+        });
+
+        User::updated(function ($user) {
+            retry(5, function () use ($user) {
+                Log::debug('User::updated - boot:' . json_encode($user));
+                if ($user->isDirty('email')) {
+                    Log::debug('send email: '. route('verify', $user->verification_token));
+                    // Mail::to($user->email)->send(new UserCreated($user));
+                }
+            });
+        });
+
         Product::updated(function ($product) {
             if ($product->quantity == 0 && $product->isAvailable()) {
                 $product->status = Product::UNAVAILABLE_PRODUCT;

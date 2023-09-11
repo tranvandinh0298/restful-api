@@ -2,24 +2,23 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class UserCreated extends Mailable
+class Test extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected User $user)
+    public function __construct()
     {
+        //
     }
 
     /**
@@ -28,7 +27,7 @@ class UserCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'User Created',
+            subject: 'Test',
         );
     }
 
@@ -38,10 +37,7 @@ class UserCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.welcome',
-            with: [
-                'user' => $this->user
-            ]
+            markdown: 'emails.test',
         );
     }
 

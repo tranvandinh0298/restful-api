@@ -17,6 +17,6 @@ class BuyerProductController extends ApiController
         // buyer -> transaction -> product
         $products = $buyer->transactions()->with('product')->get()->pluck('product');
 
-        return $this->showAll($products);
+        return $this->showProducts($products);
     }
 }

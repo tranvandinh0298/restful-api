@@ -21,6 +21,6 @@ class BuyerCategoryController extends ApiController
         ->collapse()
         ->unique('id')
         ->values();
-        return $this->showAll($categories);
+        return $this->showCategories($categories);
     }
 }

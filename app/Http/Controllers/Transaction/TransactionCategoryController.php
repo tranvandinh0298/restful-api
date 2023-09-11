@@ -17,6 +17,6 @@ class TransactionCategoryController extends ApiController
         // lấy ra tất cả cá thể loại ứng với sản phẩm nằm trong giao dịch
         $categories = $transaction->product->categories;
 
-        return $this->showAll($categories);
+        return $this->showCategories($categories);
     }
 }

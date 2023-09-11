@@ -16,7 +16,7 @@ class BuyerController extends ApiController
     {
         $buyers = Buyer::has('transactions')->get();
 
-        return $this->showAll($buyers);
+        return $this->showBuyers($buyers);
     }
 
     /**
@@ -24,6 +24,6 @@ class BuyerController extends ApiController
      */
     public function show(Buyer $buyer)
     {
-        return $this->showOne($buyer);
+        return $this->showBuyer($buyer);
     }
 }

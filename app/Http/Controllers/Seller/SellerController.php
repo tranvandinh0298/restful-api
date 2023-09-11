@@ -16,7 +16,7 @@ class SellerController extends ApiController
     {
         $sellers = Seller::has('products')->get();
 
-        return $this->showAll($sellers);
+        return $this->showSellers($sellers);
     }
 
     /**
@@ -40,7 +40,7 @@ class SellerController extends ApiController
      */
     public function show(Seller $seller)
     {
-        return $this->showOne($seller);
+        return $this->showSeller($seller);
     }
 
     /**

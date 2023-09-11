@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -70,6 +71,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function (MethodNotAllowedHttpException $e) {
             Log::debug('MethodNotAllowedHttpException');
             return $this->errorResponse($e->getMessage(), 405);
+        });
+
+        // Throttle exception : too many request attempts
+        $this->renderable(function (ThrottleRequestsException $e) {
+            Log::debug('Throttle exception');
+            return $this->errorResponse($e->getMessage(), 429);
         });
 
         // http 
