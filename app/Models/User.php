@@ -77,7 +77,6 @@ class User extends Authenticatable
         );
     }
 
-
     public function isVerified()
     {
         return  $this->verified == User::VERIFIED_USER;

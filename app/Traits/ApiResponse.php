@@ -56,6 +56,7 @@ trait ApiResponse
 
         $collection = $this->paginate($collection);
 
+        $collection = $this->cacheResponse($collection);
 
         return $this->successResponse(['data' => $collection], $code);
     }
@@ -144,16 +145,16 @@ trait ApiResponse
 
     protected function filterData(JsonResource $collection)
     {
-        foreach (request()->query() as $query => $value) {
+        foreach (request()->except(['sort_by', 'page', 'current_page']) as $query => $value) {
             $collection = $collection->filter(function ($instance) use ($query, $value) {
                 $instance = collect($instance);
-                return $instance->has($query) && $instance[$query] == $value;
+                return $instance->has($query) && $instance[$query] == trim($value);
             })->values();
         }
         return JsonResource::collection($collection);
     }
 
-    protected function paginate( JsonResource $collection)
+    protected function paginate(JsonResource $collection)
     {
         $rules = [
             'per_page' => 'integer|min:2|max:50'
@@ -177,5 +178,21 @@ trait ApiResponse
         $paginatedCollection->appends(request()->all());
 
         return $paginatedCollection;
+    }
+
+    protected function cacheResponse($data)
+    {
+        $url = request()->url();
+        $queryParams = request()->query();
+
+        ksort($queryParams);
+
+        $queryString = http_build_query($queryParams);
+
+        $fullUrl = "{$url}?{$queryString}";
+
+        return Cache::remember($fullUrl, 30, function () use ($data) {
+            return $data;
+        });
     }
 }
