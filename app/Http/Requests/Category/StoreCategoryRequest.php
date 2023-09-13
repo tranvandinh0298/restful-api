@@ -26,4 +26,15 @@ class StoreCategoryRequest extends FormRequest
             'description' => 'required',
         ];
     }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'name' => $this->title,
+            'description' => $this->details,
+        ]);
+    }
 }

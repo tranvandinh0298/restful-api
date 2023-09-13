@@ -28,4 +28,17 @@ class StoreProductRequest extends FormRequest
             'image' => 'required|image'
         ];
     }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'name' => $this->title,
+            'description' => $this->details,
+            'quantity' => $this->stock,
+            'image' => $this->picture,
+        ]);
+    }
 }

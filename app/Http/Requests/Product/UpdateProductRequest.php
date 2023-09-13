@@ -25,7 +25,19 @@ class UpdateProductRequest extends FormRequest
         return [
             'image' => 'image',
             'quantity' => 'integer|min:1',
-            'status' => 'in:'.Product::AVAILABLE_PRODUCT. ','. Product::UNAVAILABLE_PRODUCT,
+            'status' => 'in:' . Product::AVAILABLE_PRODUCT . ',' . Product::UNAVAILABLE_PRODUCT,
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'image' => $this->picture,
+            'quantity' => $this->stock,
+            'status' => $this->situation,
+        ]);
     }
 }

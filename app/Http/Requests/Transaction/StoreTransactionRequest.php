@@ -25,4 +25,12 @@ class StoreTransactionRequest extends FormRequest
             'quantity' => 'required|integer|min:1',
         ];
     }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        //
+    }
 }

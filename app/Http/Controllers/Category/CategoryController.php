@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,7 @@ class CategoryController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->fill($request->only(['name', 'description']));
 
