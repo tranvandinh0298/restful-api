@@ -9,6 +9,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Log\Logger;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -94,6 +95,12 @@ class Handler extends ExceptionHandler
                 return $this->errorResponse('Cannot remove this resource permanently. It is related with any other resource', 409);
             }
             return $this->errorResponse($e->getMessage(), 500);
+        });
+
+        // CSRF
+        $this->renderable(function (TokenMismatchException $e) {
+            Log::debug('CSRFException');
+            return $this->errorResponse($e->getMessage(), $e->getCode());
         });
 
         // unknow exceptions
