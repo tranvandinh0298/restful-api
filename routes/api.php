@@ -26,6 +26,7 @@ use App\Http\Controllers\Transaction\TransactionSellerController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,3 +134,6 @@ Route::resource('transactions.sellers', TransactionSellerController::class)->onl
 Route::resource('users', UserController::class)->except(['create', 'edit']);
 Route::get('users/verify/{token}', [UserController::class, 'verify'])->name('verify');
 Route::get('users/{user}/resend', [UserController::class, 'resend'])->name('resend');
+
+// token
+Route::post('oauth/token', [AccessTokenController::class, 'issueToken']);

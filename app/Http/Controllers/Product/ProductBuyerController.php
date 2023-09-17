@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class ProductBuyerController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Display a listing of the resource.
      */
@@ -16,10 +20,10 @@ class ProductBuyerController extends ApiController
     {
         // product => transaction -> buyer
         $buyers = $product->transactions()->with('buyer')
-        ->get()
-        ->pluck('buyer')
-        ->unique()
-        ->values();
+            ->get()
+            ->pluck('buyer')
+            ->unique()
+            ->values();
 
         return $this->showBuyers($buyers);
     }

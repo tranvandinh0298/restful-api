@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^10.10",
         "laravel/homestead": "^14.4",
+        "laravel/passport": "^11.9",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "symfony/http-client": "^6.3",

@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Log;
 
 class ProductBuyerTransactionController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -40,7 +44,7 @@ class ProductBuyerTransactionController extends ApiController
             return $this->errorResponse('The products do not have enough units for this transaction', 409);
         }
 
-        return DB::transaction(function() use ($request, $product, $buyer) {
+        return DB::transaction(function () use ($request, $product, $buyer) {
             $product->quantity -= $request->quantity;
             $product->save();
 

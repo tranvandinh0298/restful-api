@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class SellerCategoryController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Display a listing of the resource.
      */
@@ -16,13 +20,13 @@ class SellerCategoryController extends ApiController
     {
         // seller -> product -> category_product -> category
         $categories = $seller->products()
-        ->has('categories')
-        ->with('categories')
-        ->get()
-        ->pluck('categories')
-        ->collapse()
-        ->unique()
-        ->values();
+            ->has('categories')
+            ->with('categories')
+            ->get()
+            ->pluck('categories')
+            ->collapse()
+            ->unique()
+            ->values();
 
         return $this->showCategories($categories);
     }
