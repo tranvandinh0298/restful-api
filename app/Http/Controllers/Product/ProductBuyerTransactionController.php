@@ -17,12 +17,13 @@ class ProductBuyerTransactionController extends ApiController
     public function __construct()
     {
         parent::__construct();
+        $this->middleware('can:purchase,buyer')->only('store');
     }
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreTransactionRequest $request, Product $product, User $buyer)
-    {
+    {        
         Log::debug(json_encode($buyer));
         if ($buyer->id == $product->seller->id) {
             return $this->errorResponse('The buyer must be different from the seller', 409);

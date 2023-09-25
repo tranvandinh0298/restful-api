@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,7 +16,11 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Buyer::class => BuyerPolicy::class,
+        Seller::class => SellerPolicy::class,
+        User::class => UserPolicy::class,
+        Transaction::class => TransactionPolicy::class,
+        Product::class => ProductPolicy::class,
     ];
 
     /**
@@ -22,6 +28,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->registerPolicies();
+        //
+        Gate::define('admin-action', function ($user) {
+            return $user->isAdmin();
+        });
         //
         Passport::tokensExpireIn(now()->addMinutes(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));

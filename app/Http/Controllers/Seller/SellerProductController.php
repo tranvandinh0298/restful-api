@@ -19,6 +19,10 @@ class SellerProductController extends ApiController
     public function __construct()
     {
         parent::__construct();
+        $this->middleware('can:view,seller')->only('index');
+        $this->middleware('can:sale,seller')->only('store');
+        $this->middleware('can:edit-product,seller')->only('update');
+        $this->middleware('can:delete-product,seller')->only('destroy');
     }
     /**
      * Display a listing of the resource.

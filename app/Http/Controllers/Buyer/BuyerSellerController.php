@@ -12,12 +12,15 @@ class BuyerSellerController extends ApiController
     public function __construct()
     {
         parent::__construct();
+        $this->middleware('can:view,buyer')->only('index');
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Buyer $buyer)
     {
+        $this->allowedAdminAction();
+        
         // buyer -> transaction -> product -> seller
         $sellers = $buyer->transactions()->with('product.seller')
             ->get()
